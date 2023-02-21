@@ -1,4 +1,4 @@
 # README
 
-Create a PR implementing the desired ADT, interface, function or algorithm.
-Keep in mind that your implementation will be tested for correctnesss as well as performance.
+Create a PR implementing the desired ADT, interface, function or algorithm with the name of the file provided.
+Keep in mind that there will be automated tests for the correctnesss as well as the performance of your implementation.

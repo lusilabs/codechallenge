@@ -14,6 +14,20 @@ const table = {
 // write a function that implements lookup for an arbitrary table
 // keep in mind your function will be extensively called (for example it could be a part of a library) so caching is a good idea.
 
+
+const cache = {}
+
+
 export const lookup = (table, column, knownValue, desiredKey) => {
   /* implement lookup */
+  const cacheKey = `${column}:${knownValue}:${desiredKey}`;
+  
+  if (cacheKey in cache) {
+    return cache[cacheKey];
+  }
+
+  const index = table[column].indexOf(knownValue)
+  const value=  table[desiredKey][index]
+  cache[cacheKey] = value;
+  return value;
 }

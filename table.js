@@ -20,4 +20,17 @@ const table = {
 
 export const pivotRecords = records => {
   /* transform records into a table */
+  const table = {};
+
+  for (const record of records) {
+    for (const [columnName, value] of Object.entries(record)) {
+      if (columnName in table) {
+        table[columnName].push(value);
+      } else {
+        table[columnName] = [value];
+      }
+    }//
+  }
+
+  return table;
 }

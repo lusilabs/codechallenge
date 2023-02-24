@@ -17,7 +17,72 @@ num_planes_per_hour = [
 // The company wants to optimize the number of runways to make as much money as possible.
 // If the runways are all busy then a new plane cannot land and that would cost twice as much as having an empty runway.
 // How many runways should the new airport build? Explain your answer.
+// To attend the airplane that lending in the old airport the new need to build 20 runaway, but I propose 30 runaways, 
+// supposing that the landing reduce to 80% compare with the old airport the new runways going to have a mean 2.66 landing per hour.
+// But with this runaways the new airport can to growth 50% in lending.
 
 // What is the probability of 30 planes arriving during an hour? Explain your answer.
+// Now we have the 100 airplanes landing information from the old airport, we can calculate the P(30) = 30/100 = 0.3 equivalent to 30%
+// With 30% the new airport is going to attend in 48 hour 1440 lendings, with One airplane per runway per hour.
 
 // The company wants a 48 hour simulation of planes landing in the airport, report the results like `num_planes_day_simulation` and explain your answer.
+// With 100% operation (5 planes per hour at most) and 30 runaways the new airport is going to attend 4800 lendings in total.
+
+const totalRunway = new Map()
+
+const assignRunaway = () => {
+  // We sort the runway with fewer airplanes per hour
+  totalRunway[Symbol.iterator] = function * () {
+    yield * [...this.entries()].sort((a, b) => a[1].length - b[1].length)
+  }
+  return [...totalRunway][0]
+}
+
+const createRunaways = (runwayQuantity) => {
+  for (let j = 0; j < runwayQuantity; j++) {
+    totalRunway.set(`RNW-${j}`, [])
+  }
+}
+export const simulation = (occupationPercent, runwayQuantity, simulationHours) => {
+  const maxAirplanePerHour = numPlanesPerHour.length * (occupationPercent / 100)
+
+  createRunaways(runwayQuantity)
+  for (let i = 0; i < simulationHours; i++) {
+    // In one hour We are going to attend the occupationPercent airplanes from numPlanesPerHour
+
+    for (let a = 0; a < maxAirplanePerHour; a++) {
+      const randomAirplane = numPlanesPerHour[Math.floor(Math.random() * numPlanesPerHour.length)]
+      // We should get the runaway with lower airplanes
+      const runaway = assignRunaway()
+
+      // Assign the airplane to the runaway
+      runaway[1].push(randomAirplane)
+    //   console.log(`IN HOUR ${i} is arriving the AIRPLANE ${randomAirplane}`)
+    }
+  }
+
+  const airplanesAttendedByRunawaysInOneHour = []
+  let numPlanesDaySimulation = 0
+  totalRunway.forEach((v) => {
+    numPlanesDaySimulation += v.length
+    airplanesAttendedByRunawaysInOneHour.push(v.length / simulationHours)
+  })
+  console.log('airplanesAttendedByRunawaysInOneHour', airplanesAttendedByRunawaysInOneHour)
+  console.log('means', (numPlanesDaySimulation / runwayQuantity) / simulationHours)
+  console.log('numPlanesDaySimulation', numPlanesDaySimulation)
+
+  return numPlanesDaySimulation
+}
+
+
+// Tests 
+
+// 100%, 30 runaways, 48 hours
+// simulation(100, 30, 48)
+
+// 80%, 30 runaways, 48 hours
+// simulation(80, 30, 48)
+
+// 30%, 30 runaways, 48 hours
+// simulation(30, 30, 48)
+

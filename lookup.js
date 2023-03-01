@@ -2,9 +2,9 @@
 // A typical implementation in javascript can be achieved via an object of arrays e.g.
 
 const table = {
-  name:  ['alice', 'bob', 'charly'],
-  age:   [25, 50, 30],
-  email: ['alice@gmail.com', null, 'charly@gmail.com'],
+  name: ['alice', 'bob', 'charly', 'david', 'eve', 'fred', 'george'],
+  age: [25, 50, 30, 31, 40, 60, 21],
+  email: ['alice@gmail.com', null, 'charly@gmail.com', 'david@gmail.com', 'eve@yahoo.com', 'fred@hotmail.com', 'george@hotmail.com']
 }
 
 // A 'lookup function' is the equivalent of the Array.prototype.find method for tables, that is,
@@ -16,5 +16,19 @@ const table = {
 // keep in mind your function will be extensively called (for example it could be a part of a library) so speed is paramount.
 
 export const lookup = (table, column, knownValue, desiredKey) => {
-  /* implement lookup */
+
+  //simple conditionals👇🏽
+  if (!(column in table) || !(desiredKey in table) || !Object.keys(table).length) return null;
+
+  // implementing lookup function using linear search!👇🏽
+
+  let hash;
+
+  table[column].forEach((value, index) => {
+    if (value === knownValue) {
+      return hash = table[desiredKey][index];
+    }
+  });
+
+  return hash;
 }

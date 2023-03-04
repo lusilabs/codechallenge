@@ -1,6 +1,7 @@
 
 '''
 method for determinate probability poisson for arrivals
+build code in python
 '''
 from scipy.stats import poisson
 import numpy as np
